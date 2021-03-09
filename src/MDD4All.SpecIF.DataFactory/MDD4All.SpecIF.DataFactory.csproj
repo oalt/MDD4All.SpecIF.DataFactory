@@ -1,12 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MDD4All.SpecIF.DataModels" Version="3.0.1.22" />
-    <PackageReference Include="MDD4All.SpecIF.DataProvider.Contracts" Version="2.0.0.2" />
-  </ItemGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MDD4All.SpecIF.DataModels" Version="3.0.1.22" />
+        <PackageReference Include="MDD4All.SpecIF.DataProvider.Contracts" Version="2.0.0.2" />
+    </ItemGroup>
 
 </Project>

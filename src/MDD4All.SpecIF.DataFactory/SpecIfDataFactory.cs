@@ -1,4 +1,7 @@
-﻿using MDD4All.SpecIF.DataModels;
+﻿/*
+ * Copyright (c) MDD4All.de, Dr. Oliver Alt
+ */
+using MDD4All.SpecIF.DataModels;
 using MDD4All.SpecIF.DataModels.Helpers;
 using MDD4All.SpecIF.DataProvider.Contracts;
 using System;
@@ -40,6 +43,8 @@ namespace MDD4All.SpecIF.DataFactory
 
                 result.Properties.Add(property);
             }
+
+            // TODO support inheritance
 
             result.ChangedAt = DateTime.Now;
             // TODO changeBy implementation
