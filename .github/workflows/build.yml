@@ -14,7 +14,11 @@ jobs:
       PROJECT_NAME: MDD4All.SpecIF.DataFactory
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -35,10 +39,10 @@ jobs:
       run: echo $VERSION
 
     - name: Restore dependencies
-      run: dotnet restore ./src/${PROJECT_NAME}/${PROJECT_NAME}.csproj
+      run: dotnet restore ./src/${PROJECT_NAME}.sln
 
     - name: Build
-      run: dotnet build --no-restore -c Release /p:Version=${VERSION} ./src/${PROJECT_NAME}/${PROJECT_NAME}.csproj
+      run: dotnet build --no-restore -c Release /p:Version=${VERSION} ./src/${PROJECT_NAME}.sln
 
     - name: Create nuget package(s)
       run: dotnet pack --configuration Release /p:Version=${VERSION} --no-build --output ./Output ./src/${PROJECT_NAME}/${PROJECT_NAME}.csproj
