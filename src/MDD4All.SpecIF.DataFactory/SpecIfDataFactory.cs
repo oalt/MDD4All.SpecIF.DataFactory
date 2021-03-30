@@ -33,12 +33,9 @@ namespace MDD4All.SpecIF.DataFactory
 
                 Property property = new Property()
                 {
-                    ID = SpecIfGuidGenerator.CreateNewSpecIfGUID(),
-                    Revision = SpecIfGuidGenerator.CreateNewRevsionGUID(),
-                    Title = propertyClass.Title,
-                    PropertyClass = propertyClassReference,
-                    Description = propertyClass.Description,
-                    Value = ""
+
+                    Class = propertyClassReference,
+                    Values = new List<Value>()
                 };
 
                 result.Properties.Add(property);
