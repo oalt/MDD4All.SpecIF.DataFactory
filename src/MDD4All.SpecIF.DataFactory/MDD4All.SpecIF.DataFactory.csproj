@@ -4,6 +4,10 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>MDD4All_Github.snk</AssemblyOriginatorKeyFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Company>MDD4All.de</Company>
+        <Description>Data factory for SpecIF data model objects.</Description>
+        <Authors>Dr. Oliver Alt</Authors>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -13,8 +17,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="$(SolutionDir)\MDD4All.SpecIF.DataProvider.Contracts\src\MDD4All.SpecIF.DataProvider.Contracts\MDD4All.SpecIF.DataProvider.Contracts.csproj" />
-      <ProjectReference Include="$(SolutionDir)\MDD4All.SpecIF.DataModels\src\MDD4All.SpecIF.DataModels\MDD4All.SpecIF.DataModels.csproj" />
+      <PackageReference Include="MDD4All.SpecIF.DataProvider.Contracts" Version="3.0.0.10" />
     </ItemGroup>
 
 </Project>
