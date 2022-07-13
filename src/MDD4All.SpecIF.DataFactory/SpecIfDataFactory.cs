@@ -48,6 +48,61 @@ namespace MDD4All.SpecIF.DataFactory
             return result;
         }
 
+        public static Statement CreateStatement(Key statementClassKey, 
+                                                Key subjectKey,
+                                                Key objectKey,
+                                                ISpecIfMetadataReader metadataReader)
+        {
+            Statement result = new Statement();
+
+            StatementClass statementClass = metadataReader.GetStatementClassByKey(statementClassKey);
+
+            result.ID = SpecIfGuidGenerator.CreateNewSpecIfGUID();
+            result.Revision = SpecIfGuidGenerator.CreateNewRevsionGUID();
+            result.Properties = new List<Property>();
+
+            result.Class = statementClassKey;
+
+            if (statementClass.PropertyClasses != null)
+            {
+                foreach (Key propertyClassReference in statementClass.PropertyClasses)
+                {
+                    Property property = new Property()
+                    {
+
+                        Class = propertyClassReference,
+                        Values = new List<Value>()
+                    };
+
+                    result.Properties.Add(property);
+                }
+            }
+            AddInheritedPropertiesRecursively(result, statementClass, metadataReader);
+
+            result.ChangedAt = DateTime.Now;
+
+            result.ChangedBy = Environment.UserName;
+
+            result.StatementSubject = subjectKey;
+            result.StatementObject = objectKey;
+
+
+            return result;
+        }
+
+        public static Resource CreateResourceWithNode(Key resourceKey, out Node node, ISpecIfMetadataReader metadataReader)
+        {
+            Resource resource = CreateResource(resourceKey, metadataReader);
+
+            node = new Node
+            {
+                ResourceReference = new Key(resource.ID, resource.Revision)
+            };
+
+            return resource;
+        }
+
+
         private static void AddInheritedPropertiesRecursively(Resource result, ResourceClass currentResourceClass, ISpecIfMetadataReader metadataReader)
         {
             if(currentResourceClass.Extends != null)
@@ -56,24 +111,28 @@ namespace MDD4All.SpecIF.DataFactory
 
                 ResourceClass parentResourceClass = metadataReader.GetResourceClassByKey(parentClassKey);
 
-                foreach (Key propertyClassReference in parentResourceClass.PropertyClasses)
+                if (parentResourceClass != null)
                 {
-                    PropertyClass propertyClass = metadataReader.GetPropertyClassByKey(propertyClassReference);
-
-                    if (!IsPropertyStillIncluded(result.Properties, propertyClass.Title, metadataReader))
+                    foreach (Key propertyClassReference in parentResourceClass.PropertyClasses)
                     {
-                        Property property = new Property()
+                        PropertyClass propertyClass = metadataReader.GetPropertyClassByKey(propertyClassReference);
+
+                        if (!IsPropertyStillIncluded(result.Properties, propertyClass.Title, metadataReader))
                         {
+                            Property property = new Property()
+                            {
 
-                            Class = propertyClassReference,
-                            Values = new List<Value>()
-                        };
+                                Class = propertyClassReference,
+                                Values = new List<Value>()
+                            };
 
-                        result.Properties.Add(property);
+                            result.Properties.Add(property);
+                        }
                     }
+                    AddInheritedPropertiesRecursively(result, parentResourceClass, metadataReader);
                 }
 
-                AddInheritedPropertiesRecursively(result, parentResourceClass, metadataReader);
+                
 
             }
 
