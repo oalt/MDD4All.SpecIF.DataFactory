@@ -19,27 +19,11 @@ namespace MDD4All.SpecIF.DataFactory
         {
             Resource result = new Resource();
 
-            ResourceClass resourceType = metadataReader.GetResourceClassByKey(resourceClassKey);
-
             result.ID = SpecIfGuidGenerator.CreateNewSpecIfGUID();
             result.Revision = SpecIfGuidGenerator.CreateNewRevsionGUID();
             result.Properties = new List<Property>();
 
             result.Class = resourceClassKey;
-
-            foreach (Key propertyClassReference in resourceType.PropertyClasses)
-            {
-                Property property = new Property()
-                {
-
-                    Class = propertyClassReference,
-                    Values = new List<Value>()
-                };
-
-                result.Properties.Add(property);
-            }
-
-            AddInheritedPropertiesRecursively(result, resourceType, metadataReader);
 
             result.ChangedAt = DateTime.Now;
             
@@ -55,29 +39,11 @@ namespace MDD4All.SpecIF.DataFactory
         {
             Statement result = new Statement();
 
-            StatementClass statementClass = metadataReader.GetStatementClassByKey(statementClassKey);
-
             result.ID = SpecIfGuidGenerator.CreateNewSpecIfGUID();
             result.Revision = SpecIfGuidGenerator.CreateNewRevsionGUID();
             result.Properties = new List<Property>();
 
             result.Class = statementClassKey;
-
-            if (statementClass.PropertyClasses != null)
-            {
-                foreach (Key propertyClassReference in statementClass.PropertyClasses)
-                {
-                    Property property = new Property()
-                    {
-
-                        Class = propertyClassReference,
-                        Values = new List<Value>()
-                    };
-
-                    result.Properties.Add(property);
-                }
-            }
-            AddInheritedPropertiesRecursively(result, statementClass, metadataReader);
 
             result.ChangedAt = DateTime.Now;
 
