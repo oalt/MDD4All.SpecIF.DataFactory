@@ -15,6 +15,13 @@ namespace MDD4All.SpecIF.DataFactory
         {
         }
 
+        public static Resource CreateResource(Key resourceClassKey)
+        {
+            Resource result = CreateResource(resourceClassKey, null);
+
+            return result;
+        }
+
         public static Resource CreateResource(Key resourceClassKey, ISpecIfMetadataReader metadataReader)
         {
             Resource result = new Resource();
