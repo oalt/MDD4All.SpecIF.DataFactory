@@ -1,0 +1,1 @@
+﻿Static factory methods to create SpecIF data obejcts (resources or statements).
